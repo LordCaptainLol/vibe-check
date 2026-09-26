@@ -1,0 +1,311 @@
+import {
+  Brain,
+  Compass,
+  Ghost,
+  HeartHandshake,
+  Megaphone,
+  MessageCircleHeart,
+  Moon,
+  Rocket,
+  Search,
+  Telescope,
+  Timer,
+  Tornado,
+  TrendingUp,
+  Zap,
+} from 'lucide-react';
+import type { Archetype } from '../types';
+
+export const ARCHETYPES: Archetype[] = [
+  {
+    id: 'chaos-scholar',
+    title: { en: 'Chaos Scholar', es: 'Eminencia del Caos' },
+    emoji: '🌀',
+    icon: Zap,
+    tagline: {
+      en: 'Studies the rules exclusively to break them creatively.',
+      es: 'Estudia las reglas solo para romperlas con creatividad.',
+    },
+    summary: {
+      en: 'You treat every plan like a rough draft and every rough draft like a suggestion. Somehow it always works out, and nobody — including you — knows how.',
+      es: 'Tratas cada plan como un borrador y cada borrador como una sugerencia. De algún modo siempre sale bien, y nadie (ni tú) sabe cómo.',
+    },
+    tip: {
+      en: 'Write down one wild idea before it escapes. At least one of them is genius; the rest are still great stories.',
+      es: 'Apunta una idea loca antes de que se escape. Al menos una es genial; las demás, como mínimo, son buenas anécdotas.',
+    },
+    rarity: 9,
+    gradient: 'from-fuchsia-500 via-pink-500 to-orange-400',
+    vector: { chaos: 3, brain: 1 },
+  },
+  {
+    id: 'overthinking-mastermind',
+    title: { en: 'Overthinking Mastermind', es: 'Mente Maestra del Sobrepensar' },
+    emoji: '🧠',
+    icon: Brain,
+    tagline: {
+      en: 'Has already simulated this conversation 47 times.',
+      es: 'Ya ha simulado esta conversación 47 veces.',
+    },
+    summary: {
+      en: 'Your brain runs 12 tabs at once and at least three of them are playing music. You notice everything, which is a superpower right up until bedtime.',
+      es: 'Tu cerebro tiene 12 pestañas abiertas y al menos tres están reproduciendo música. Te fijas en todo, lo cual es un superpoder… hasta la hora de dormir.',
+    },
+    tip: {
+      en: 'Give every worry a 10-minute timer. When it rings, the worry has to go outside and play.',
+      es: 'Dale a cada preocupación un temporizador de 10 minutos. Cuando suene, la preocupación tiene que salir a jugar.',
+    },
+    rarity: 12,
+    gradient: 'from-indigo-500 via-blue-500 to-cyan-400',
+    vector: { brain: 3 },
+  },
+  {
+    id: 'midnight-snack-architect',
+    title: { en: 'Midnight Snack Architect', es: 'Chef del Antojo Nocturno' },
+    emoji: '🍜',
+    icon: Moon,
+    tagline: {
+      en: 'Designs gourmet masterpieces exclusively after 11 PM.',
+      es: 'Diseña obras maestras gourmet solo después de las 11 PM.',
+    },
+    summary: {
+      en: "Your creativity has a curfew, and it's the opposite of everyone else's. The world gets your best ideas right when it's asleep.",
+      es: 'Tu creatividad tiene toque de queda, pero al revés que el de todo el mundo. El mundo recibe tus mejores ideas justo cuando está dormido.',
+    },
+    tip: {
+      en: 'Keep a notepad by the fridge. Your midnight brain deserves a paper trail.',
+      es: 'Deja una libreta junto a la nevera. Tu cerebro de medianoche merece dejar constancia.',
+    },
+    rarity: 7,
+    gradient: 'from-violet-600 via-purple-500 to-blue-500',
+    vector: { night: 3, chaos: 1 },
+  },
+  {
+    id: 'certified-vibe-healer',
+    title: { en: 'Certified Vibe Healer', es: 'Aura Sanadora Certificada' },
+    emoji: '🫶',
+    icon: HeartHandshake,
+    tagline: {
+      en: "Everyone's emotional support human. Unlicensed, but gifted.",
+      es: 'El apoyo emocional de todo el mundo. Sin licencia, pero con don.',
+    },
+    summary: {
+      en: 'Strangers tell you their life story in the grocery line and leave feeling better. You read rooms the way other people read menus.',
+      es: 'Desconocidos te cuentan su vida en la cola del súper y se van sintiéndose mejor. Lees una sala como otros leen un menú.',
+    },
+    tip: {
+      en: "Schedule a day where you're the one being checked on. Refill the cup you keep pouring from.",
+      es: 'Agenda un día en el que seas tú a quien le pregunten cómo está. Rellena la taza de la que no paras de servir.',
+    },
+    rarity: 11,
+    gradient: 'from-rose-500 via-pink-500 to-amber-300',
+    vector: { heart: 3 },
+  },
+  {
+    id: 'spreadsheet-overlord',
+    title: { en: 'Spreadsheet Overlord', es: 'Mandamás de las Hojas de Cálculo' },
+    emoji: '📊',
+    icon: TrendingUp,
+    tagline: {
+      en: 'Has a five-year plan. And a backup five-year plan.',
+      es: 'Tiene un plan a cinco años. Y un plan B a cinco años.',
+    },
+    summary: {
+      en: "You don't have hobbies, you have projects with KPIs. Honestly, the rest of us are a little scared and a lot impressed.",
+      es: 'No tienes pasatiempos, tienes proyectos con KPIs. Sinceramente, al resto nos das un poco de miedo y mucha admiración.',
+    },
+    tip: {
+      en: "Block out one hour this week with zero goals. Yes, you're allowed to put it in the calendar.",
+      es: 'Bloquea una hora esta semana sin ningún objetivo. Sí, puedes ponerla en el calendario.',
+    },
+    rarity: 8,
+    gradient: 'from-emerald-500 via-teal-400 to-lime-300',
+    vector: { drive: 3 },
+  },
+  {
+    id: '3am-gremlin',
+    title: { en: '3 AM Gremlin', es: 'Gremlin de las 3 AM' },
+    emoji: '👾',
+    icon: Ghost,
+    tagline: {
+      en: 'Awake for no reason. Up to something for every reason.',
+      es: 'Sin sueño por ninguna razón. Tramando algo por todas las razones.',
+    },
+    summary: {
+      en: 'Your peak performance window opens when the streetlights come on. You are the reason the group chat has unread messages at dawn.',
+      es: 'Tu mejor momento empieza cuando se encienden las farolas. Por tu culpa el grupo amanece con mensajes sin leer.',
+    },
+    tip: {
+      en: "Try one boring bedtime this week and see what daytime you can do. They're curious too.",
+      es: 'Prueba una hora de dormir aburrida esta semana y descubre de qué es capaz tu versión diurna. También tiene curiosidad.',
+    },
+    rarity: 6,
+    gradient: 'from-purple-600 via-fuchsia-500 to-lime-400',
+    vector: { chaos: 2, night: 2 },
+  },
+  {
+    id: 'strategic-spiral-engineer',
+    title: { en: 'Strategic Spiral Engineer', es: 'Ingeniería de Espirales Estratégicas' },
+    emoji: '🧭',
+    icon: Compass,
+    tagline: {
+      en: 'Turns anxiety into action plans with color-coded tabs.',
+      es: 'Convierte la ansiedad en planes de acción con pestañas de colores.',
+    },
+    summary: {
+      en: 'You overthink, but make it productive — every spiral ends with a checklist. Even your worst-case scenarios have contingency plans.',
+      es: 'Sobrepiensas, pero de forma productiva: cada espiral termina en una checklist. Hasta tus peores escenarios tienen plan de contingencia.',
+    },
+    tip: {
+      en: 'Done beats perfect. Ship the 80% version and let the universe handle QA.',
+      es: 'Hecho es mejor que perfecto. Lanza la versión al 80% y deja que el universo haga el control de calidad.',
+    },
+    rarity: 10,
+    gradient: 'from-sky-500 via-indigo-500 to-violet-500',
+    vector: { brain: 2, drive: 2 },
+  },
+  {
+    id: 'emotional-support-tornado',
+    title: { en: 'Emotional Support Tornado', es: 'Tornado de Apoyo Emocional' },
+    emoji: '🌪️',
+    icon: Tornado,
+    tagline: {
+      en: 'Arrives unannounced. Leaves everyone feeling better.',
+      es: 'Llega sin avisar. Deja a todo el mundo mejor.',
+    },
+    summary: {
+      en: "You bring the chaos and the comfort in the same visit. Nobody knows what you'll do next, but everyone knows you'll show up.",
+      es: 'Traes el caos y el consuelo en la misma visita. Nadie sabe qué harás después, pero todo el mundo sabe que aparecerás.',
+    },
+    tip: {
+      en: 'Your energy is contagious — aim it at one thing this week and watch it multiply.',
+      es: 'Tu energía es contagiosa: apúntala a una sola cosa esta semana y mira cómo se multiplica.',
+    },
+    rarity: 5,
+    gradient: 'from-pink-500 via-orange-400 to-yellow-300',
+    vector: { chaos: 2, heart: 2 },
+  },
+  {
+    id: 'moonlit-philosopher',
+    title: { en: 'Moonlit Philosopher', es: 'Filosofía de Medianoche' },
+    emoji: '🌙',
+    icon: Telescope,
+    tagline: {
+      en: 'Asks "but what IS time?" at exactly the wrong moment.',
+      es: 'Pregunta "pero ¿qué ES el tiempo?" en el peor momento posible.',
+    },
+    summary: {
+      en: "Your thoughts get deeper as the night gets darker. You've solved the universe three times — unfortunately, you were in bed each time.",
+      es: 'Tus pensamientos se vuelven más profundos a medida que oscurece. Has resuelto el universo tres veces; por desgracia, siempre estabas en la cama.',
+    },
+    tip: {
+      en: "Keep a 'big thoughts' note on your phone. Future you would love to read the 1 AM manifesto.",
+      es: "Guarda una nota de 'grandes pensamientos' en el móvil. A tu yo del futuro le encantará leer el manifiesto de la 1 AM.",
+    },
+    rarity: 7,
+    gradient: 'from-indigo-600 via-violet-500 to-slate-300',
+    vector: { night: 2, brain: 2 },
+  },
+  {
+    id: 'hype-committee-ceo',
+    title: { en: 'Hype Committee CEO', es: 'CEO del Comité del Hype' },
+    emoji: '📣',
+    icon: Megaphone,
+    tagline: {
+      en: "Founder, president, and only member of your friends' fan club.",
+      es: 'Fundó, preside y es el único miembro del club de fans de sus amistades.',
+    },
+    summary: {
+      en: 'You chase big goals and drag everyone you love along for the ride. Your pep talks should honestly be billable.',
+      es: 'Persigues metas enormes y arrastras contigo a toda la gente que quieres. Tus charlas motivacionales deberían cobrarse.',
+    },
+    tip: {
+      en: "Turn that hype inward once in a while. Screenshot your wins — you've earned the receipts.",
+      es: 'Dirige ese hype hacia ti de vez en cuando. Haz captura de tus logros: te has ganado las pruebas.',
+    },
+    rarity: 9,
+    gradient: 'from-amber-400 via-orange-500 to-rose-500',
+    vector: { heart: 2, drive: 2 },
+  },
+  {
+    id: 'speedrun-strategist',
+    title: { en: 'Speedrun Strategist', es: 'Estrategia en Modo Speedrun' },
+    emoji: '⚡',
+    icon: Timer,
+    tagline: { en: 'Skips the tutorial. Wins anyway.', es: 'Se salta el tutorial. Gana igual.' },
+    summary: {
+      en: 'You move fast, break things, and somehow patch them mid-air. Deadlines are just the starting pistol.',
+      es: 'Vas rápido, rompes cosas y de algún modo las arreglas en pleno vuelo. Las fechas límite son solo el pistoletazo de salida.',
+    },
+    tip: {
+      en: "Before your next leap, take one breath and one screenshot of the plan. That's it — that's the whole tip.",
+      es: 'Antes de tu próximo salto, respira una vez y haz captura del plan. Eso es todo: ese es el consejo.',
+    },
+    rarity: 6,
+    gradient: 'from-red-500 via-orange-500 to-yellow-400',
+    vector: { chaos: 2, drive: 2 },
+  },
+  {
+    id: 'midnight-therapist',
+    title: { en: 'Midnight Therapist', es: 'Terapia de Medianoche' },
+    emoji: '🕯️',
+    icon: MessageCircleHeart,
+    tagline: {
+      en: 'Open for heart-to-hearts between 11 PM and 4 AM.',
+      es: 'Charlas de corazón a corazón, de 11 PM a 4 AM.',
+    },
+    summary: {
+      en: 'Your best conversations happen when everyone else is asleep. People save their realest thoughts for you, and your inbox proves it.',
+      es: 'Tus mejores conversaciones ocurren cuando todo el mundo duerme. La gente te guarda sus pensamientos más sinceros, y tu bandeja de entrada lo demuestra.',
+    },
+    tip: {
+      en: 'Set one tiny boundary this week. Being there for everyone includes being there for you.',
+      es: 'Pon un límite pequeñito esta semana. Estar para todo el mundo incluye estar para ti.',
+    },
+    rarity: 8,
+    gradient: 'from-blue-600 via-purple-500 to-pink-400',
+    vector: { night: 2, heart: 2 },
+  },
+  {
+    id: 'night-shift-visionary',
+    title: { en: 'Night Shift Visionary', es: 'Mente Visionaria Nocturna' },
+    emoji: '🌃',
+    icon: Rocket,
+    tagline: {
+      en: 'Builds empires while the rest of the world is buffering.',
+      es: 'Construye imperios mientras el resto del mundo sigue cargando.',
+    },
+    summary: {
+      en: "Your ambition doesn't clock out, it just switches to dark mode. The hustle is real; the sleep schedule is theoretical.",
+      es: 'Tu ambición no ficha la salida, solo cambia a modo oscuro. El esfuerzo es real; el horario de sueño, teórico.',
+    },
+    tip: {
+      en: 'Sleep is a productivity hack with zero subscription fee. Try the free trial tonight.',
+      es: 'Dormir es un truco de productividad sin suscripción. Prueba la versión gratuita esta noche.',
+    },
+    rarity: 7,
+    gradient: 'from-cyan-400 via-blue-600 to-indigo-700',
+    vector: { night: 2, drive: 2 },
+  },
+  {
+    id: 'soft-hearted-detective',
+    title: { en: 'Soft-Hearted Detective', es: 'Detective de Buen Corazón' },
+    emoji: '🔍',
+    icon: Search,
+    tagline: {
+      en: 'Noticed you changed your profile pic 4 minutes ago.',
+      es: 'Notó que cambiaste tu foto de perfil hace 4 minutos.',
+    },
+    summary: {
+      en: 'You read between every line and remember every detail — not to judge, just to care. Your birthday gifts are frighteningly accurate.',
+      es: 'Lees entre líneas y recuerdas cada detalle, no para juzgar, sino porque te importa. Tus regalos de cumpleaños dan miedo de lo acertados que son.',
+    },
+    tip: {
+      en: 'Ask the question out loud instead of solving it in your head. The answer is usually kinder than your theory.',
+      es: 'Haz la pregunta en voz alta en lugar de resolverla en tu cabeza. La respuesta suele ser más amable que tu teoría.',
+    },
+    rarity: 10,
+    gradient: 'from-teal-400 via-cyan-500 to-blue-500',
+    vector: { brain: 2, heart: 2 },
+  },
+];

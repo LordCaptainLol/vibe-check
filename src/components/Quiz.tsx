@@ -6,22 +6,22 @@ import type { Option, Question } from '../types';
 
 const ADVANCE_DELAY_MS = 520;
 
-interface QuizProps {
-  questions: Question[];
-  onComplete: (answers: Option[]) => void;
+interface QuizProps<W> {
+  questions: Question<W>[];
+  onComplete: (answers: Option<W>[]) => void;
 }
 
-export function Quiz({ questions, onComplete }: QuizProps) {
+export function Quiz<W>({ questions, onComplete }: QuizProps<W>) {
   const { t, l } = useLang();
   const [index, setIndex] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const answers = useRef<Option[]>([]);
+  const answers = useRef<Option<W>[]>([]);
   const timer = useRef<number | undefined>(undefined);
 
   const question = questions[index];
 
   const select = useCallback(
-    (option: Option) => {
+    (option: Option<W>) => {
       if (selectedId) return;
       setSelectedId(option.id);
       answers.current = [...answers.current, option];
@@ -55,7 +55,7 @@ export function Quiz({ questions, onComplete }: QuizProps) {
 
   if (!question) return null;
 
-  const stateFor = (option: Option): OptionState =>
+  const stateFor = (option: Option<W>): OptionState =>
     selectedId === null ? 'idle' : selectedId === option.id ? 'selected' : 'dimmed';
 
   return (

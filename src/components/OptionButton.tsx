@@ -5,14 +5,14 @@ import type { Option } from '../types';
 
 export type OptionState = 'idle' | 'selected' | 'dimmed';
 
-interface OptionButtonProps {
-  option: Option;
+interface OptionButtonProps<W> {
+  option: Option<W>;
   index: number;
   state: OptionState;
-  onSelect: (option: Option) => void;
+  onSelect: (option: Option<W>) => void;
 }
 
-export function OptionButton({ option, index, state, onSelect }: OptionButtonProps) {
+export function OptionButton<W>({ option, index, state, onSelect }: OptionButtonProps<W>) {
   const { l } = useLang();
 
   return (

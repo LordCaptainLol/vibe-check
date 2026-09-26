@@ -1,22 +1,30 @@
 import { useEffect, useState } from 'react';
 import { useLang } from '../i18n/LanguageContext';
+import type { Mode } from '../types';
 
 const DURATION_MS = 2800;
 const STEP_MS = 560;
 
-/** One emoji per entry in the localized `loadingSteps`. */
-const STEP_EMOJIS = ['🔮', '🍕', '🧠', '🌀', '✨'];
+/** One emoji per entry in the localized loading steps. */
+const STEP_EMOJIS: Record<Mode, string[]> = {
+  vibe: ['🔮', '🍕', '🧠', '🌀', '✨'],
+  dnd: ['🎲', '🧙', '⚖️', '🎒', '⚡'],
+};
 
 interface CalculatingProps {
+  mode: Mode;
   onDone: () => void;
 }
 
-export function Calculating({ onDone }: CalculatingProps) {
+export function Calculating({ mode, onDone }: CalculatingProps) {
   const { t } = useLang();
   const [step, setStep] = useState(0);
+  const emojis = STEP_EMOJIS[mode];
+  const steps = mode === 'vibe' ? t.loadingSteps : t.dndLoadingSteps;
 
   useEffect(() => {
-    const interval = window.setInterval(() => setStep((s) => Math.min(s + 1, STEP_EMOJIS.length - 1)), STEP_MS);
+    const lastStep = STEP_EMOJIS.vibe.length - 1;
+    const interval = window.setInterval(() => setStep((s) => Math.min(s + 1, lastStep)), STEP_MS);
     const done = window.setTimeout(onDone, DURATION_MS);
     return () => {
       window.clearInterval(interval);
@@ -24,7 +32,7 @@ export function Calculating({ onDone }: CalculatingProps) {
     };
   }, [onDone]);
 
-  const current = { emoji: STEP_EMOJIS[step], text: t.loadingSteps[step] };
+  const current = { emoji: emojis[step], text: steps[step] };
 
   return (
     <section className="flex animate-fade-in flex-col items-center text-center" aria-live="polite">
@@ -44,7 +52,9 @@ export function Calculating({ onDone }: CalculatingProps) {
         </div>
       </div>
 
-      <h2 className="mt-10 font-display text-2xl font-bold tracking-tight sm:text-3xl">{t.analyzing}</h2>
+      <h2 className="mt-10 font-display text-2xl font-bold tracking-tight sm:text-3xl">
+        {mode === 'vibe' ? t.analyzing : t.dndAnalyzing}
+      </h2>
       <p key={current.text} className="mt-2 h-6 animate-fade-in text-white/60">
         {current.text}
       </p>

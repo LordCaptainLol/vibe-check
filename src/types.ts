@@ -5,23 +5,29 @@ export type Lang = 'en' | 'es';
 /** A string available in every supported language. */
 export type Localized = Record<Lang, string>;
 
-export type Trait = 'chaos' | 'brain' | 'night' | 'heart' | 'drive';
+export type Mode = 'vibe' | 'dnd';
 
-export type TraitWeights = Partial<Record<Trait, number>>;
+export type Phase = 'hero' | 'quiz' | 'calculating' | 'result';
 
-export interface Option {
+export interface Option<W> {
   id: string;
   emoji: string;
   label: Localized;
-  weights: TraitWeights;
+  weights: W;
 }
 
-export interface Question {
+export interface Question<W> {
   id: string;
   kicker: Localized;
   prompt: Localized;
-  options: Option[];
+  options: Option<W>[];
 }
+
+/* ---------- Vibe Check mode ---------- */
+
+export type Trait = 'chaos' | 'brain' | 'night' | 'heart' | 'drive';
+
+export type TraitWeights = Partial<Record<Trait, number>>;
 
 export interface Archetype {
   id: string;
@@ -44,9 +50,83 @@ export interface VibeStat {
 }
 
 export interface VibeResult {
+  mode: 'vibe';
   archetype: Archetype;
   stats: VibeStat[];
   vibeId: string;
 }
 
-export type Phase = 'hero' | 'quiz' | 'calculating' | 'result';
+/* ---------- D&D mode ---------- */
+
+export type Race =
+  | 'human'
+  | 'elf'
+  | 'dwarf'
+  | 'halfling'
+  | 'gnome'
+  | 'orc'
+  | 'goliath'
+  | 'aasimar'
+  | 'tiefling'
+  | 'dragonborn';
+
+export type DndClass =
+  | 'barbarian'
+  | 'bard'
+  | 'cleric'
+  | 'druid'
+  | 'fighter'
+  | 'monk'
+  | 'paladin'
+  | 'ranger'
+  | 'rogue'
+  | 'sorcerer'
+  | 'warlock'
+  | 'wizard';
+
+export type Ability = 'str' | 'dex' | 'con' | 'int' | 'wis' | 'cha';
+
+export interface DndWeights {
+  race: Partial<Record<Race, number>>;
+  classes: Partial<Record<DndClass, number>>;
+}
+
+export interface RaceInfo {
+  id: Race;
+  name: Localized;
+  emoji: string;
+  /** One sentence describing what this race says about you. */
+  flavor: Localized;
+}
+
+export interface ClassInfo {
+  id: DndClass;
+  name: Localized;
+  emoji: string;
+  icon: LucideIcon;
+  gradient: string;
+  tagline: Localized;
+  summary: Localized;
+  tip: Localized;
+  /** Primary and secondary ability. */
+  abilities: [Ability, Ability];
+}
+
+export interface AbilityScore {
+  ability: Ability;
+  score: number;
+  modifier: number;
+}
+
+export interface DndResult {
+  mode: 'dnd';
+  race: RaceInfo;
+  cls: ClassInfo;
+  /** In canonical STR → CHA order. */
+  abilities: AbilityScore[];
+  /** A raw d20 roll, 1–20. */
+  initiative: number;
+  sheetId: string;
+}
+
+export type GameResult = VibeResult | DndResult;

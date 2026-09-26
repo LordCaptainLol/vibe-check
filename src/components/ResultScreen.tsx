@@ -5,10 +5,11 @@ import { Toast } from './Toast';
 import { VibeCard } from './VibeCard';
 import { useLang } from '../i18n/LanguageContext';
 import { copyResult, shareResult } from '../lib/share';
-import type { VibeResult } from '../types';
+import { CharacterCard } from './dnd/CharacterCard';
+import type { GameResult } from '../types';
 
 interface ResultScreenProps {
-  result: VibeResult;
+  result: GameResult;
   onRetake: () => void;
 }
 
@@ -47,12 +48,12 @@ export function ResultScreen({ result, onRetake }: ResultScreenProps) {
 
   return (
     <section className="w-full">
-      <VibeCard result={result} />
+      {result.mode === 'vibe' ? <VibeCard result={result} /> : <CharacterCard result={result} />}
 
       <div className="mt-8 grid animate-slide-up grid-cols-2 gap-3" style={{ animationDelay: '1.3s' }}>
         <Button onClick={handleShare} className="col-span-2">
           <Share2 className="size-5 transition-transform duration-200 group-hover:-rotate-12 group-hover:scale-110" />
-          {t.share}
+          {result.mode === 'vibe' ? t.share : t.dndShare}
         </Button>
         <Button variant="secondary" onClick={handleCopy}>
           {copied ? <Check className="size-4 text-emerald-400" /> : <Copy className="size-4" />}
@@ -65,7 +66,7 @@ export function ResultScreen({ result, onRetake }: ResultScreenProps) {
       </div>
 
       <p className="mt-5 animate-fade-in text-center text-xs text-white/40" style={{ animationDelay: '1.6s' }}>
-        {t.retakeHint}
+        {result.mode === 'vibe' ? t.retakeHint : t.dndRetakeHint}
       </p>
 
       {toast && <Toast key={toast.id} message={toast.message} />}

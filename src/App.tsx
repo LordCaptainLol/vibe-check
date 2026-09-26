@@ -6,28 +6,43 @@ import { Quiz } from './components/Quiz';
 import { Calculating } from './components/Calculating';
 import { ResultScreen } from './components/ResultScreen';
 import { LanguageToggle } from './components/LanguageToggle';
+import { QUESTION_POOL } from './data/questions';
+import { DND_QUESTION_POOL } from './data/dnd/questions';
 import { useLang } from './i18n/LanguageContext';
-import { computeVibe, pickQuestions } from './lib/vibe';
-import type { Option, Phase, Question, VibeResult } from './types';
+import { computeDnd } from './lib/dnd';
+import { pickFreshQuestions } from './lib/questionHistory';
+import { computeVibe } from './lib/vibe';
+import type { DndWeights, GameResult, Mode, Phase, Question, TraitWeights } from './types';
 
-const QUESTION_COUNT = 3;
+const QUESTION_COUNT: Record<Mode, number> = { vibe: 3, dnd: 5 };
+
+type Run =
+  | { mode: 'vibe'; questions: Question<TraitWeights>[] }
+  | { mode: 'dnd'; questions: Question<DndWeights>[] };
+
+function createRun(mode: Mode): Run {
+  return mode === 'vibe'
+    ? { mode, questions: pickFreshQuestions(mode, QUESTION_POOL, QUESTION_COUNT.vibe) }
+    : { mode, questions: pickFreshQuestions(mode, DND_QUESTION_POOL, QUESTION_COUNT.dnd) };
+}
 
 export default function App() {
   const { t } = useLang();
+  const [mode, setMode] = useState<Mode>('vibe');
   const [phase, setPhase] = useState<Phase>('hero');
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [result, setResult] = useState<VibeResult | null>(null);
+  const [run, setRun] = useState<Run | null>(null);
+  const [result, setResult] = useState<GameResult | null>(null);
   const [runId, setRunId] = useState(0);
 
   const start = useCallback(() => {
-    setQuestions(pickQuestions(QUESTION_COUNT));
+    setRun(createRun(mode));
     setResult(null);
     setRunId((id) => id + 1);
     setPhase('quiz');
-  }, []);
+  }, [mode]);
 
-  const handleComplete = useCallback((answers: Option[]) => {
-    setResult(computeVibe(answers));
+  const finish = useCallback((next: GameResult) => {
+    setResult(next);
     setPhase('calculating');
   }, []);
 
@@ -51,13 +66,22 @@ export default function App() {
       </header>
 
       <main className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center px-4 py-10 sm:px-6 sm:py-14">
-        {phase === 'hero' && <Hero onStart={start} />}
-        {phase === 'quiz' && <Quiz key={runId} questions={questions} onComplete={handleComplete} />}
-        {phase === 'calculating' && <Calculating onDone={showResult} />}
+        {phase === 'hero' && <Hero mode={mode} onModeChange={setMode} onStart={start} />}
+        {phase === 'quiz' &&
+          run &&
+          (run.mode === 'vibe' ? (
+            <Quiz key={runId} questions={run.questions} onComplete={(answers) => finish(computeVibe(answers))} />
+          ) : (
+            <Quiz key={runId} questions={run.questions} onComplete={(answers) => finish(computeDnd(answers))} />
+          ))}
+        {phase === 'calculating' && run && <Calculating mode={run.mode} onDone={showResult} />}
         {phase === 'result' && result && <ResultScreen result={result} onRetake={start} />}
       </main>
 
-      <footer className="px-4 pb-6 text-center text-xs text-white/35">{t.footer}</footer>
+      <footer className="space-y-1 px-4 pb-6 text-center text-xs text-white/35">
+        <p>{t.footer}</p>
+        {mode === 'dnd' && <p>{t.dndDisclaimer}</p>}
+      </footer>
     </div>
   );
 }

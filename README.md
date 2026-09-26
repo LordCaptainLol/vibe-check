@@ -36,7 +36,7 @@ Hero ──start──▶ Quiz (3 random Qs) ──answers──▶ Calculating 
                      └──────────────────────────── Retake ◀─────────────────────┘
 ```
 
-1. **Question pool**: `src/data/questions.ts` holds 8 questions. Each run draws a random 3, so retakes feel fresh.
+1. **Question pool**: `src/data/questions.ts` holds 16 questions. Each run draws 3 you haven't seen yet (see *Question history* below).
 2. **Traits**: every option adds weights to five hidden traits: `chaos`, `brain`, `night`, `heart`, `drive`.
 3. **Archetype match**: `src/lib/vibe.ts` sums the weights and picks the archetype whose trait vector has the
    highest cosine similarity to yours (14 archetypes, covering every single trait and every trait pair).
@@ -87,6 +87,36 @@ src/
   class strings for `gradient` (e.g. `'from-pink-500 via-rose-500 to-orange-400'`) so Tailwind can detect them.
 - **Change the number of questions**: `QUESTION_COUNT` in `App.tsx`.
 - **Rename stats**: edit labels in `src/data/traits.ts`.
+
+## D&D mode 🐉
+
+A second game mode, chosen from the start screen: **"Which D&D race and class are you?"**
+
+- **5 questions** drawn from a pool of 20 (`src/data/dnd/questions.ts`).
+- Every option votes for one or two **races** and a mix of **classes**. The top race and top class win.
+  Ties are broken by a stable hash of your answers, so the same answers always give the same sheet.
+- It uses the 2024 rules: 10 races (Human, Elf, Dwarf, Halfling, Gnome, Orc, Goliath, Aasimar, Tiefling,
+  Dragonborn) and the 12 core classes.
+- **Ability scores** use the standard array with +2/+1 (17, 15, 13, 12, 10, 8). The winning class's two key
+  abilities get the top slots, and the rest are ordered by how much your other class votes leaned on them.
+- The **Character Sheet** card shows the race + class title, the six abilities with modifiers, a two-sentence
+  read (class + race), a "quest" tip and a d20 initiative roll.
+- Balance was checked with a 300,000-run simulation. Every one of the 120 race/class combinations is reachable,
+  each race comes up 9–12% of the time and each class 6–11%.
+
+Unofficial fan content. Dungeons & Dragons is a trademark of Wizards of the Coast.
+
+## Question history (no repeats)
+
+`src/lib/questionHistory.ts` remembers, per mode, which questions you've already seen, and saves them in
+`localStorage` (`vibecheck.history.vibe` / `vibecheck.history.dnd`).
+
+- Each run serves questions you haven't seen yet, until the pool is used up: 5 runs in Vibe Check (16 ÷ 3) and
+  4 in D&D (20 ÷ 5).
+- Then a new cycle starts. Questions from the immediately previous run are always excluded, so two runs in a row
+  never share a question.
+- If storage is blocked (private mode, etc.), it falls back to memory for the current visit.
+- To reset it, clear the site's data or remove those two keys.
 
 ## Languages (EN / ES)
 
